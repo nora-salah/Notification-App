@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "266668298887",
+    "project_id": "reminder-app-dffaf",
+    "storage_bucket": "reminder-app-dffaf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266668298887:android:8ffabca1dc8638e18f1e22",
+        "android_client_info": {
+          "package_name": "com.example.notification"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCs_4Ls6DXiDbhlm29Q27Eur2HQixyJSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
