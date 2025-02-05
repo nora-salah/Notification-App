@@ -23,13 +23,53 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     user = FirebaseAuth.instance.currentUser;
-    NotificationLogic.init(context, user!.uid);
-    listenNotification();
+    _initializeNotifications();
   }
 
+
+  Future<void> _initializeNotifications() async {
+    await FCMService.init();
+    await NotificationLogic.init(context, user!.uid);
+    _setupNotificationListener();
+    _checkNotificationPermissions();
+  }
+
+  void _setupNotificationListener() {
+    NotificationLogic.onNotification.listen((String? payload) {
+      if (payload != null) {
+        onClickNotification(payload);
+      }
+    });
+  }
+
+  Future<void> _checkNotificationPermissions() async {
+    bool enabled = await NotificationLogic.areNotificationsEnabled();
+    if (!enabled) {
+      // Show dialog to request permissions
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Notifications Disabled'),
+          content: Text('Please enable notifications to receive reminders'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Later'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await NotificationLogic.requestNotificationPermissions();
+                Navigator.pop(context);
+              },
+              child: Text('Enable'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
   void listenNotification() {
     NotificationLogic.onNotification.listen((value) {});
   }
